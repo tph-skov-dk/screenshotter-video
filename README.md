@@ -3,11 +3,11 @@
 example with flameshot:
 
 ```bash
-$ python3 screenshotter-video "flameshot screen -p ."
+$ python3 screenshotter-video --cmd "flameshot screen -p ."
 ```
 
 example with weston-screenshotter: 
 
 ```bash
-$ python3 screenshotter-video "screenshot"
+$ python3 screenshotter-video --cmd "screenshot"
 ```

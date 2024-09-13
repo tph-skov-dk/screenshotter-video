@@ -20,7 +20,7 @@ def take_screenshot(cmd):
     print("took screenshot")
 
 def combine(fps):
-    subprocess.run(["ffmpeg", "-f", "image2", "-r", f"{int(fps)}", "-pattern_type", "glob", "-i", f"{tmp_dir}/*", "-vcodec", "libx264", "-crf", "22", f"{tmp_dir}.mp4"])
+    subprocess.run(["ffmpeg", "-f", "image2", "-r", f"{int(fps)}", "-pattern_type", "glob", "-i", f"{tmp_dir}/*", "-vcodec", "mpeg4", f"{tmp_dir}.mp4"])
 
 def signal_handler(sig, frame):
     elapsed = time.time() - start

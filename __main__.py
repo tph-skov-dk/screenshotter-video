@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import time
 import argparse
 import sys
@@ -19,24 +20,26 @@ def take_screenshot(cmd):
     frames_written += 1
     print("took screenshot")
 
-def combine(fps):
-    subprocess.run(["ffmpeg", "-f", "image2", "-r", f"{int(fps)}", "-pattern_type", "glob", "-i", f"{tmp_dir}/*", "-vcodec", "mpeg4", f"{tmp_dir}.mp4"])
+def combine(fps, out):
+    subprocess.run(["ffmpeg", "-f", "image2", "-r", f"{int(fps)}", "-pattern_type", "glob", "-i", f"{tmp_dir}/*", "-vcodec", "mpeg4", out])
 
-def signal_handler(sig, frame):
+def signal_handler(out):
     elapsed = time.time() - start
     fps = frames_written / elapsed
     print(f"wrote {frames_written} frame(s) over {elapsed:0.4f} seconds for a total {fps:0.4f} frames/sec")
     print(f"output available in {tmp_dir}")
-    print("attempting to combine")
-    combine(fps)
+    print(f"attempting to combine into {out}")
+    combine(fps, out)
     sys.exit(0)
 
 def main():
     parser = argparse.ArgumentParser("screenshotter-video")
-    parser.add_argument("screenshot_cmd", help="Command to execute to take screenshot")
+    parser.add_argument("-c", "--cmd", help="Command to execute to take screenshot", required=True)
+    parser.add_argument("-o", "--out", help=f"Output video file. Default: '{tmp_dir}.mp4'", default=f"{tmp_dir}.mp4")
     args = parser.parse_args()
-    cmd = args.screenshot_cmd.split()
-    signal.signal(signal.SIGINT, signal_handler)
+    cmd = args.cmd.split()
+    out = args.out.split()
+    signal.signal(signal.SIGINT, lambda: signal_handler(out))
     while True:
         take_screenshot(cmd)
 

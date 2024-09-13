@@ -9,5 +9,5 @@ $ python3 screenshotter-video "flameshot screen -p ."
 example with weston-screenshotter: 
 
 ```bash
-$ python3 screenshotter-video "weston-screenshotter"
+$ python3 screenshotter-video "screenshot"
 ```
